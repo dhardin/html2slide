@@ -1,0 +1,25 @@
+﻿.slideContent, .slide {
+    margin: 0.5in;
+    border: 1px solid #000;
+    background-color: #eee;
+}
+
+.slide {
+    overflow:hidden;
+}
+
+ol {
+    margin: 0;
+    margin-left: 1in;
+}
+@media print {
+    .slide {
+        margin: 0;
+        border: none;
+        page-break-after: always;
+         background-color: #fff;
+    }
+    .slideContent{
+        display:none;
+    }
+}
