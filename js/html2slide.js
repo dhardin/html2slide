@@ -93,20 +93,38 @@ html2slide = (function () {
                 $slideDeck = jqueryMap.$slideDeck,
                 height = $slideContent.height(),
                 width = $slideContent.width(),
-                INCH_TO_PX = 96,
-                slideHeight = configMap.slide_height * INCH_TO_PX,
-                numSlides = height / slideHeight,
+                numSlides,
                 html = $slideContent.html(),
-                i;
+                i, $textElement, $slide,
+                INCH_TO_PX = 96;
 
             //clear out any existing content from slide deck
             $slideDeck.empty();
 
+            $slide = $('<div class="slide"></div>');
+            $slide.css({
+                lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+                fontSize: configMap.font_size + "in",
+                width: configMap.slide_width + "in",
+                height: configMap.slide_height + "in"
+            });
+
+            numSlides = height / ($slide.height() * INCH_TO_PX);
+
             for (i = 0; i < numSlides; i++) {
-                var $textElement = $(html);
-                var $slide = $('<div class="slide"></div>');
+                $textElement = $('<div/>');
+                $textElement.html(html);
+                $slide = $('<div class="slide"></div>');
+
+                $slide.css({
+                    lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+                    fontSize: configMap.font_size + "in",
+                    width: configMap.slide_width + "in",
+                    height: configMap.slide_height + "in"
+                });
+
                 $textElement.appendTo($slide);
-                $textElement.css('margin-top', slideHeight * i * -1);
+                $textElement.css('margin-top', $slide.height() * INCH_TO_PX * i * -1);
                 $slide.appendTo($slideDeck);
             }
         });
@@ -151,7 +169,7 @@ html2slide = (function () {
             lineHeight: configMap.font_size + "in", // Needs to be the same as font size
             fontSize: configMap.font_size + "in",
             width: configMap.slide_width + "in",
-            height: configMap.height + "in"
+            minHeight: configMap.height + "in"
         });
 
         jqueryMap.$convertBtn.on('click', onConvertClick);
