@@ -15,7 +15,12 @@ html2slide = (function () {
     var
     configMap = {
         main_html: String()
-        + '<div class="slideContent" contenteditable="true"></div>'
+        + '<div class="slideContentEntry" contenteditable="true"></div>'
+        + '<div class="slideContent"></div>'
+        + 'Settings: <br/>'
+        + 'Width (inches): <input class="width" type="number" value="8.5" step="0.5"><br/>'
+        + 'Height (inches): <input class="height" type="number" value="11" step="0.5"><br/>'
+        + 'Font Size (inches): <input class="fontSize" type="number" value="0.2" step="0.1"><br/>'
         + '<input type="button" class="convert" value="Convert">'
         + '<div class="slideDeck"></div>',
         settable_map: {
@@ -76,8 +81,12 @@ html2slide = (function () {
 
         jqueryMap = {
             $slideContent: $container.find('.slideContent'),
+            $slideContentEntry : $container.find('.slideContentEntry'),
             $slideDeck: $container.find('.slideDeck'),
-            $convertBtn: $container.find('.convert')
+            $convertBtn: $container.find('.convert'),
+            $width: $container.find('.width'),
+            $height: $container.find('.height'),
+            $fontSize: $container.find('.fontSize')
         };
     };
     // End DOM method /setJqueryMap/
@@ -87,7 +96,7 @@ html2slide = (function () {
     //------------------- BEGIN EVENT HANDLERS -------------------
     // Begin event handler /onConvertClick/
     onConvertClick = function (e) {
-        $(document).ready(function () {
+        jqueryMap.$slideContent.html(jqueryMap.$slideContentEntry.html());
             var
                 $slideContent = jqueryMap.$slideContent,
                 $slideDeck = jqueryMap.$slideDeck,
@@ -98,6 +107,9 @@ html2slide = (function () {
                 i, $textElement, $slide,
                 INCH_TO_PX = 96;
 
+            configMap.slide_height = jqueryMap.$height.val();
+            configMap.slide_width = jqueryMap.$width.val();
+            configMap.font_size = jqueryMap.$fontSize.val();
             //clear out any existing content from slide deck
             $slideDeck.empty();
 
@@ -127,7 +139,6 @@ html2slide = (function () {
                 $textElement.css('margin-top', $slide.height() * INCH_TO_PX * i * -1);
                 $slide.appendTo($slideDeck);
             }
-        });
     }
     // End event handler /onConvertClick/
 
@@ -164,15 +175,34 @@ html2slide = (function () {
 
         setJqueryMap();
 
+     
+
         //set specified styling
-        jqueryMap.$slideContent.css({
+        jqueryMap.$slideContentEntry.css({
             lineHeight: configMap.font_size + "in", // Needs to be the same as font size
             fontSize: configMap.font_size + "in",
             width: configMap.slide_width + "in",
-            minHeight: configMap.height + "in"
+            height: configMap.height + "in"
+        });
+
+        jqueryMap.$slideContentEntry.css({
+            lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+            fontSize: configMap.font_size + "in",
+            width: configMap.slide_width + "in"
         });
 
         jqueryMap.$convertBtn.on('click', onConvertClick);
+
+        jqueryMap.$fontSize.on('input', function (e) {
+            jqueryMap.$slideContentEntry.css({
+                lineHeight: $(this).val() + "in", // Needs to be the same as font size
+                fontSize: $(this).val() + "in"
+            });
+            jqueryMap.$slideContent.css({
+                lineHeight: $(this).val() + "in", // Needs to be the same as font size
+                fontSize: $(this).val() + "in"
+            });
+        });
       
         return true;
     };

@@ -1,4 +1,4 @@
-﻿.slideContent, .slide {
+﻿.slideContent, .slideContentEntry, .slide {
     margin: 0.5in;
     border: 1px solid #000;
     background-color: #eee;
@@ -8,18 +8,19 @@
     overflow:hidden;
 }
 
-ol {
-    margin: 0;
-    margin-left: 1in;
+.slideContentEntry {
+    overflow-y: auto;
 }
+
+.slideContent{display: none;}
 @media print {
     .slide {
         margin: 0;
         border: none;
-        page-break-after: always;
+        /*page-break-after: always;*/
          background-color: #fff;
     }
-    .slideContent{
+    .slideContent, .convert{
         display:none;
     }
 }
