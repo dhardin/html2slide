@@ -17,10 +17,10 @@ html2slide = (function () {
         main_html: String()
         + '<div class="slideContentEntry" contenteditable="true"></div>'
         + '<div class="slideContent"></div>'
-        + 'Settings: <br/>'
+        + '<div class="settings"> Settings: <br/>'
         + 'Width (inches): <input class="width" type="number" value="8.5" step="0.5"><br/>'
         + 'Height (inches): <input class="height" type="number" value="11" step="0.5"><br/>'
-        + 'Font Size (inches): <input class="fontSize" type="number" value="0.2" step="0.1"><br/>'
+        + 'Font Size (inches): <input class="fontSize" type="number" value="0.2" step="0.1"><br/></div>'
         + '<input type="button" class="convert" value="Convert">'
         + '<div class="slideDeck"></div>',
         settable_map: {
@@ -86,7 +86,8 @@ html2slide = (function () {
             $convertBtn: $container.find('.convert'),
             $width: $container.find('.width'),
             $height: $container.find('.height'),
-            $fontSize: $container.find('.fontSize')
+            $fontSize: $container.find('.fontSize'),
+            $settings: $container.find('.settings')
         };
     };
     // End DOM method /setJqueryMap/
@@ -97,6 +98,7 @@ html2slide = (function () {
     // Begin event handler /onConvertClick/
     onConvertClick = function (e) {
         jqueryMap.$slideContent.html(jqueryMap.$slideContentEntry.html());
+
             var
                 $slideContent = jqueryMap.$slideContent,
                 $slideDeck = jqueryMap.$slideDeck,
@@ -104,7 +106,7 @@ html2slide = (function () {
                 width = $slideContent.width(),
                 numSlides,
                 html = $slideContent.html(),
-                i, $textElement, $slide,
+                i, $textElement, $slide,$slideContainer,
                 INCH_TO_PX = 96;
 
             configMap.slide_height = jqueryMap.$height.val();
@@ -118,17 +120,24 @@ html2slide = (function () {
                 lineHeight: configMap.font_size + "in", // Needs to be the same as font size
                 fontSize: configMap.font_size + "in",
                 width: configMap.slide_width + "in",
-                height: configMap.slide_height + "in"
+                height: configMap.slide_height - 0.5 + "in"
             });
 
-            numSlides = height / ($slide.height() * INCH_TO_PX);
+            numSlides = height / (configMap.slide_height * INCH_TO_PX);
 
             for (i = 0; i < numSlides; i++) {
                 $textElement = $('<div/>');
                 $textElement.html(html);
                 $slide = $('<div class="slide"></div>');
-
+                $slideContainer = $('<div class="slideContainer"></div>');
+                $slide.appendTo($slideContainer);
                 $slide.css({
+                    lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+                    fontSize: configMap.font_size + "in",
+                    width: configMap.slide_width + "in",
+                    height: configMap.slide_height+ "in"
+                });
+                $slideContainer.css({
                     lineHeight: configMap.font_size + "in", // Needs to be the same as font size
                     fontSize: configMap.font_size + "in",
                     width: configMap.slide_width + "in",
@@ -136,8 +145,8 @@ html2slide = (function () {
                 });
 
                 $textElement.appendTo($slide);
-                $textElement.css('margin-top', $slide.height() * INCH_TO_PX * i * -1);
-                $slide.appendTo($slideDeck);
+                $textElement.css('margin-top', $slide.height()  * i * -1);
+                $slideContainer.appendTo($slideDeck);
             }
     }
     // End event handler /onConvertClick/

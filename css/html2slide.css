@@ -1,10 +1,20 @@
-﻿.slideContent, .slideContentEntry, .slide {
+﻿.slideContent div, .slideContentEntry div, .slide div,
+.slideContent p, .slideContentEntry p, .slide p {
+    margin: 0;
+}
+.slideContent, .slideContentEntry, .slideContainer {
     margin: 0.5in;
+    padding: 0.5in;
     border: 1px solid #000;
     background-color: #eee;
 }
 
 .slide {
+  
+}
+
+
+.slide, .slideContainer {
     overflow:hidden;
 }
 
@@ -14,13 +24,20 @@
 
 .slideContent{display: none;}
 @media print {
-    .slide {
+    .slideContainer {
         margin: 0;
         border: none;
         /*page-break-after: always;*/
          background-color: #fff;
     }
-    .slideContent, .convert{
+    .settings, .slideContentEntry,.slideContent, .convert{
         display:none;
     }
+}
+
+@page{
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
