@@ -206,7 +206,7 @@ html2slide = (function () {
     // End DOM method /setWordLineNumber/
 
     // Begin DOM method /addSlides/
-    addSlides = function (slideContentObjArr) {
+    addSlides = function (slideContentObjArr, index) {
         var
             i, key,
             content_map = {
@@ -216,31 +216,39 @@ html2slide = (function () {
             slide = {}
         ;
 
+        index = index || 0;
+
         if (!(slideContentObjArr instanceof Array)) {
             return false;
         }
 
-        for (i = 0; i < slideContentObjArr.length; i++) {
-            if (!(slideContentObjArr[i] instanceof Object)) {
-                return false;
-            }
+        if (index >= slideContentObjArr.length) {
+            return;
+        }
 
-            //populate content map
-            for (key in content_map) {
-                //reset content map key value
-                content_map[key] = "";
-                //check to see if proptery exists in slide content object
-                if (slideContentObjArr[i].hasOwnProperty(key)) {
-                    content_map[key] = slideContentObjArr[i][key];
-                }
-            }
+     
+        if (!(slideContentObjArr[index] instanceof Object)) {
+            return false;
+        }
 
-            //build slide(s) based on content map
+        //populate content map
+        for (key in content_map) {
+            //reset content map key value
+            content_map[key] = "";
+            //check to see if proptery exists in slide content object
+            if (slideContentObjArr[index].hasOwnProperty(key)) {
+                content_map[key] = slideContentObjArr[index][key];
+            }
+        }
+
+
+        //build slide(s) based on content map
+        setTimeout(function () {
             slide = new Slide(content_map.header, content_map.content, configMap.slide_width, configMap.slide_height, configMap.slide_margin, configMap.font_size);
-
             //add slides to deck
             slide.appendTo(jqueryMap.$slideDeck);
-        }
+            addSlides(slideContentObjArr, index + 1);
+        }, 100);
 
 
     };
