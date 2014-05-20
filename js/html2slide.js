@@ -117,7 +117,7 @@ html2slide = (function () {
 
             $slide = $('<div class="slide"></div>');
             $slide.css({
-                lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+                //lineHeight: configMap.font_size + "in", // Needs to be the same as font size
                 fontSize: configMap.font_size + "in",
                 width: configMap.slide_width + "in",
                 height: configMap.slide_height - 0.5 + "in"
@@ -132,20 +132,20 @@ html2slide = (function () {
                 $slideContainer = $('<div class="slideContainer"></div>');
                 $slide.appendTo($slideContainer);
                 $slide.css({
-                    lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+                   // lineHeight: configMap.font_size + "in", // Needs to be the same as font size
                     fontSize: configMap.font_size + "in",
                     width: configMap.slide_width + "in",
                     height: configMap.slide_height+ "in"
                 });
                 $slideContainer.css({
-                    lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+                    //lineHeight: configMap.font_size + "in", // Needs to be the same as font size
                     fontSize: configMap.font_size + "in",
                     width: configMap.slide_width + "in",
                     height: configMap.slide_height + "in"
                 });
 
                 $textElement.appendTo($slide);
-                $textElement.css('margin-top', $slide.height()  * i * -1);
+                $textElement.css('margin-top', configMap.slide_height * INCH_TO_PX * i * -1);
                 $slideContainer.appendTo($slideDeck);
             }
     }
@@ -188,14 +188,14 @@ html2slide = (function () {
 
         //set specified styling
         jqueryMap.$slideContentEntry.css({
-            lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+           // lineHeight: configMap.font_size + "in", // Needs to be the same as font size
             fontSize: configMap.font_size + "in",
             width: configMap.slide_width + "in",
             height: configMap.height + "in"
         });
 
         jqueryMap.$slideContentEntry.css({
-            lineHeight: configMap.font_size + "in", // Needs to be the same as font size
+           // lineHeight: configMap.font_size + "in", // Needs to be the same as font size
             fontSize: configMap.font_size + "in",
             width: configMap.slide_width + "in"
         });
@@ -204,11 +204,11 @@ html2slide = (function () {
 
         jqueryMap.$fontSize.on('input', function (e) {
             jqueryMap.$slideContentEntry.css({
-                lineHeight: $(this).val() + "in", // Needs to be the same as font size
+              //  lineHeight: $(this).val() + "in", // Needs to be the same as font size
                 fontSize: $(this).val() + "in"
             });
             jqueryMap.$slideContent.css({
-                lineHeight: $(this).val() + "in", // Needs to be the same as font size
+             //   lineHeight: $(this).val() + "in", // Needs to be the same as font size
                 fontSize: $(this).val() + "in"
             });
         });
